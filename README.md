@@ -22,11 +22,14 @@ Follow these steps for the service account ceration
 ### Grant service account access to the spreadsheet
 Open spreadsheet and click on share button on top right corner. Share the spreadsheet with the service account email. Give editor permission to it.
 
-### Project environment setup
+## Run the flask app 
 For this project we can either setup a virtual python environment or go with the existing interpreter.
 Just need to make sure the requirements.txt libraries are install. <br>
-pip install -r requirements.txt
+change directory to flask app where the requirements.txt and app.py reside<br>
+cd flask_app <br><br>
 
-## Run the flask app
-We can run the flask app with below command
+Install requirements<br>
+pip install -r requirements.txt<br><br>
+
+Run the flask app<br>
 python app.py
