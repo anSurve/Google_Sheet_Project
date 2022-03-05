@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Homepage
+{% endblock %}
+
+{% block content %}
+<form action="http://localhost:5000/transform_spreadsheet", method="POST">
+    <h1>Kindly provide the spreadsheet details</h1>
+    <br/>
+    <div class="input-group mb-3" style="width:700px">
+        <span class="input-group-text" id="basic-addon3">Spreadsheet Id</span>
+        <input type="text" class="form-control" name="spreadsheet_id" aria-describedby="basic-addon3">
+    </div>
+    <br/>
+    <div class="input-group mb-3" style="width:700px">
+        <span class="input-group-text" id="basic-addon3">Sheet Name</span>
+        <input type="text" class="form-control" name="sheet_name" aria-describedby="basic-addon3">
+    </div>
+    <br/>
+
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    </div>
+</form>
+
+{% endblock %}
