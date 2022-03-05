@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import logging as logger
 from google_sheet_api import google_sheet_api
 
 
