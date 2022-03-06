@@ -11,6 +11,7 @@ Manual Validation
 {% if records_present %}
 <form action="http://localhost:5000/manual_validation" method="POST">
     <input type="hidden" name="new_spreadsheet_id" value={{ spreadsheet_id }}>
+    <input type="hidden" name="new_sheet_name" value={{ sheet_name }}>
     <div class="input-group mb-3" style="width:700px">
         <span class="input-group-text">English</span>
         <input type="text" class="form-control" name="English" aria-describedby="basic-addon3"

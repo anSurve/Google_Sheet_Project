@@ -45,7 +45,8 @@ def transform_spreadsheet():
     except Exception:
         text = "Some Error Occurred"
         error = True
-    return render_template("transform_file.html", text=text, error=error, new_sheet_id=new_sheet_id)
+    return render_template("transform_file.html", text=text, error=error, new_sheet_id=new_sheet_id,
+                           new_sheet_name=new_sheet_name)
 
 
 @flaskAppInstance.route('/manual_validation', methods=["POST"])
@@ -54,8 +55,9 @@ def fetch_spreadsheet():
     global count
     global translated_row_json
     spreadsheet_id = request.form["new_spreadsheet_id"]
+    sheet_name = request.form["new_sheet_name"]
     if count is None:
-        cell_range = "Translation!A1:B"
+        cell_range = sheet_name + "!A1:B"
         translated_row_list = google_sheet_api.get_rows_in_spreadsheet(spreadsheet_id, cell_range)
         count = 0
         translated_row_json = functions.transform_row_list_to_json(translated_row_list)
@@ -76,7 +78,7 @@ def fetch_spreadsheet():
         records_present = False
         text = "Validation of all rows completed!"
         row_list = functions.get_row_json_to_list(translated_row_json)
-        cell_range = "Translation!A1:E"
+        cell_range = sheet_name + "!A1:E"
         value_input_operation = "USER_ENTERED"
         result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
                                                      value_input_operation)

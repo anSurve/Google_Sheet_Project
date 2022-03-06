@@ -15,6 +15,7 @@ Transform File
 {% else %}
     <form action="http://localhost:5000/manual_validation" method="POST">
         <input type="hidden" name="new_spreadsheet_id" value={{ new_sheet_id }}>
+        <input type="hidden" name="new_sheet_name" value={{ new_sheet_name }}>
         <button type="submit" class="btn btn-success">Proceed to Manual Validation</button>
     </form>
 {% endif %}
