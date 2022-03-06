@@ -33,3 +33,21 @@ pip install -r requirements.txt<br><br>
 
 Run the flask app<br>
 python app.py
+
+## Using the app
+### Home Page
+You need to provide the Original Spreadsheet id & sheet name as well as Target Spreadsheet Id and the Sheet Name. <br>
+You can get the spreadsheet if in the URL of the spreadsheet.<br>
+After the details are provided you need to submit that form.
+
+### Transformation Page
+On back of this page, the initial google English to Hindi transformation is applied and saved in B column.<br>
+If any failures occure, warning button will show up on the screen asking you to go back to the homepage and fill the details again.<br>
+If everything works fine, green button will appear asking you to go ahead.
+
+### Manual Validation page
+On this Page, you'll see the records one by one. User has to confirm if the google hindi translation is correct. If not, he can correct it in the Actual Translation field.<br>
+After the last record in the sheet, the changes made will be saved to the Target spreadsheet.
+Along with the actual hindi translation, the start and end time of each record will also be stored in the sheet.
+
+
