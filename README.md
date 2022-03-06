@@ -34,7 +34,7 @@ pip install -r requirements.txt<br><br>
 Run the flask app<br>
 python app.py
 
-## Using the app
+## Usage of the app
 ### Home Page
 You need to provide the Original Spreadsheet id & sheet name as well as Target Spreadsheet Id and the Sheet Name. <br>
 You can get the spreadsheet if in the URL of the spreadsheet.<br>
