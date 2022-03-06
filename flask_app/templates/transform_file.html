@@ -13,8 +13,9 @@ Transform File
         <button class="btn btn-warning">Go Back</button>
     </a>
 {% else %}
-<a href="http://localhost:5000/">
-    <button  class="btn btn-success">Proceed to Manual Validation</button>
-</a>
+    <form action="http://localhost:5000/manual_validation" method="POST">
+        <input type="hidden" name="new_spreadsheet_id" value={{ new_sheet_id }}>
+        <button type="submit" class="btn btn-success">Proceed to Manual Validation</button>
+    </form>
 {% endif %}
 {% endblock %}

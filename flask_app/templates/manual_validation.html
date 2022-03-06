@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Manual Validation
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ text }}</h2>
+<br/>
+{% if records_present %}
+<form action="http://localhost:5000/manual_validation" method="POST">
+    <input type="hidden" name="new_spreadsheet_id" value={{ spreadsheet_id }}>
+    <div class="input-group mb-3" style="width:700px">
+        <span class="input-group-text">English</span>
+        <input type="text" class="form-control" name="English" aria-describedby="basic-addon3"
+        value="{{ row.Initial_English }}" readonly="readonly">
+    </div>
+    <br/>
+    <div class="input-group mb-3" style="width:700px">
+        <span class="input-group-text">Hindi by Google</span>
+        <input type="text" class="form-control" name="google_hindi" aria-describedby="basic-addon3"
+        value="{{ row.Initial_Hindi }}" readonly="readonly">
+    </div>
+    <br/>
+    <div class="input-group mb-3" style="width:700px">
+        <span class="input-group-text">Actual Hindi</span>
+        <input type="text" class="form-control" name="actual_hindi" aria-describedby="basic-addon3"
+        value="{{ row.Initial_Hindi }}">
+    </div>
+    <div class="col-auto">
+        <button type="Submit" class="btn btn-primary mb-3">Next</button>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

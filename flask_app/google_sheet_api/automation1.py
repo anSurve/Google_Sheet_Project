@@ -33,16 +33,3 @@ class GoogleSheetAPI:
             .update(spreadsheetId=spreadsheet_id, range=cell_range,
                     valueInputOption=value_input_operation, body=body).execute()
         return result
-
-
-def get_translated_rows(rows_lst):
-    count = 1
-    header = True
-    for row in rows_lst:
-        if header:
-            header = False
-            row.append("Hindi Translated By Google")
-        else:
-            row.append("=GOOGLETRANSLATE(A" + str(count) + ",\"en\",\"hi\")")
-            count += 1
-    return rows_lst
