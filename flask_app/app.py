@@ -39,7 +39,7 @@ def transform_spreadsheet():
         transformed_data = functions.get_translated_rows(sheet_data)
         result = google_sheet_api.update_spreadsheet(new_spreadsheet_id, transformed_data, new_cell_range,
                                                      value_input_operation)
-        print(result)
+        #print(result)
         text = "Spreadsheet Found and Transformed! Saved Transformed Data To File."
         new_sheet_id = new_spreadsheet_id
     except Exception:
@@ -65,14 +65,14 @@ def fetch_spreadsheet():
         actual_hindi = request.form["actual_hindi"]
         translated_row_json[count]["Actual_Hindi"] = actual_hindi
         translated_row_json[count]["End"] = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        print(translated_row_json[count])
+        #print(translated_row_json[count])
         count += 1
     row = None
     records_present = True
     if count < len(translated_row_json):
         row = translated_row_json[count]
         translated_row_json[count]["Start"] = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        print(translated_row_json[count])
+        #print(translated_row_json[count])
         text = "Manual Validation Screen"
     else:
         records_present = False
@@ -82,9 +82,9 @@ def fetch_spreadsheet():
         value_input_operation = "USER_ENTERED"
         result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
                                                      value_input_operation)
-        print(row_list)
+        #print(row_list)
     return render_template("manual_validation.html", text=text, row=row, records_present=records_present,
-                           spreadsheet_id=spreadsheet_id)
+                           spreadsheet_id=spreadsheet_id, sheet_name=sheet_name)
 
 
 flaskAppInstance.run(host="0.0.0.0", port=5000, debug=True, use_reloader=True)
