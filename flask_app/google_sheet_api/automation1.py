@@ -13,8 +13,10 @@ class GoogleSheetAPI:
         self.sheet = self.service.spreadsheets()
 
     def get_rows_in_spreadsheet(self, spreadsheet_id, cell_range):
+        row_list = list()
         result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=cell_range).execute()
-        row_list = result['values']
+        if 'values' in result.keys():
+            row_list = result['values']
         return row_list
 
     def create_spreadsheet(self, title):

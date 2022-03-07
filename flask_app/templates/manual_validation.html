@@ -10,17 +10,20 @@ Manual Validation
 <br/>
 {% if records_present %}
 <form action="http://localhost:5000/manual_validation" method="POST">
-    <input type="hidden" name="new_spreadsheet_id" value={{ spreadsheet_id }}>
-    <input type="hidden" name="new_sheet_name" value={{ sheet_name }}>
+    <input type="hidden" name="new_spreadsheet_id" value="{{ spreadsheet_id }}">
+    <input type="hidden" name="new_sheet_name" value="{{ sheet_name }}">
+    <input type="hidden" name="cell_range" value="{{ cell_range }}">
+    <input type="hidden" name="next_record" value="{{ next_record }}">
+    <input type="hidden" name="start" value="{{ start }}">
     <div class="input-group mb-3" style="width:700px">
         <span class="input-group-text">English</span>
-        <input type="text" class="form-control" name="English" aria-describedby="basic-addon3"
+        <input type="text" class="form-control" name="initial_english" aria-describedby="basic-addon3"
         value="{{ row.Initial_English }}" readonly="readonly">
     </div>
     <br/>
     <div class="input-group mb-3" style="width:700px">
         <span class="input-group-text">Hindi by Google</span>
-        <input type="text" class="form-control" name="google_hindi" aria-describedby="basic-addon3"
+        <input type="text" class="form-control" name="initial_hindi" aria-describedby="basic-addon3"
         value="{{ row.Initial_Hindi }}" readonly="readonly">
     </div>
     <br/>

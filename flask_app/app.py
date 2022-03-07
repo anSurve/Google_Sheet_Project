@@ -6,19 +6,9 @@ import datetime
 
 flaskAppInstance = Flask(__name__)
 
-translated_row_list = list()
-count = None
-translated_row_json = list()
-
 
 @flaskAppInstance.route('/')
 def home_page():
-    global translated_row_list
-    global translated_row_json
-    global count
-    count = None
-    translated_row_json.clear()
-    translated_row_list.clear()
     return render_template("home.html")
 
 
@@ -48,43 +38,54 @@ def transform_spreadsheet():
     return render_template("transform_file.html", text=text, error=error, new_sheet_id=new_sheet_id,
                            new_sheet_name=new_sheet_name)
 
-
 @flaskAppInstance.route('/manual_validation', methods=["POST"])
 def fetch_spreadsheet():
-    global translated_row_list
     global count
-    global translated_row_json
     spreadsheet_id = request.form["new_spreadsheet_id"]
     sheet_name = request.form["new_sheet_name"]
-    if count is None:
-        cell_range = sheet_name + "!A1:B"
-        translated_row_list = google_sheet_api.get_rows_in_spreadsheet(spreadsheet_id, cell_range)
-        count = 0
-        translated_row_json = functions.transform_row_list_to_json(translated_row_list)
-    else:
+    next_record = int(request.form["next_record"])
+    current_time = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    if next_record > 1:
+        row_json = dict()
+        initial_english = request.form["initial_english"]
+        initial_hindi = request.form["initial_hindi"]
         actual_hindi = request.form["actual_hindi"]
-        translated_row_json[count]["Actual_Hindi"] = actual_hindi
-        translated_row_json[count]["End"] = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        #print(translated_row_json[count])
-        count += 1
-    row = None
-    records_present = True
-    if count < len(translated_row_json):
-        row = translated_row_json[count]
-        translated_row_json[count]["Start"] = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        #print(translated_row_json[count])
-        text = "Manual Validation Screen"
-    else:
-        records_present = False
-        text = "Validation of all rows completed!"
-        row_list = functions.get_row_json_to_list(translated_row_json)
-        cell_range = sheet_name + "!A1:E"
+        cell_range = request.form["cell_range"]
+        start = request.form["start"]
+        row_json["Initial_English"] = initial_english
+        row_json["Initial_Hindi"] = initial_hindi
+        row_json["Actual_Hindi"] = actual_hindi
+        row_json["Start"] = start
+        row_json["End"] = current_time
         value_input_operation = "USER_ENTERED"
+        row_list = functions.get_row_json_to_list(row_json)
         result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
                                                      value_input_operation)
-        #print(row_list)
-    return render_template("manual_validation.html", text=text, row=row, records_present=records_present,
-                           spreadsheet_id=spreadsheet_id, sheet_name=sheet_name)
+        print(result)
+
+    elif next_record == 1:
+        row_list = [["Initial_English", "Initial_Hindi", "Actual_Hindi", "Start", "End"]]
+        value_input_operation = "USER_ENTERED"
+        cell_range = sheet_name + "!A" + str(next_record) + ":E" + str(next_record)
+        result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
+                                                     value_input_operation)
+        print(result)
+
+    next_record += 1
+    cell_range = sheet_name + "!A" + str(next_record) + ":E" + str(next_record)
+    print(cell_range)
+    next_row = google_sheet_api.get_rows_in_spreadsheet(spreadsheet_id, cell_range)
+    if len(next_row) > 0:
+        next_row_json = functions.transform_row_list_to_json(next_row)
+        records_present = True
+        text = "Manual Validation Screen"
+    else:
+        text = "Validation Completed !!"
+        records_present = False
+        next_row_json = ['No new Rows']
+    return render_template("manual_validation.html", text=text, row=next_row_json[0], records_present=records_present,
+                           spreadsheet_id=spreadsheet_id, sheet_name=sheet_name, cell_range=cell_range,
+                           next_record=next_record, start=current_time)
 
 
-flaskAppInstance.run(host="0.0.0.0", port=5000, debug=True, use_reloader=True)
+flaskAppInstance.run(host="localhost", port=5000, debug=True, use_reloader=True)
