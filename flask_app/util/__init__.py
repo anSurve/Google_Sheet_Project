@@ -7,6 +7,7 @@ class RequiredFunctions:
         key3 = "Actual_Hindi"
         key4 = "Start"
         key5 = "End"
+        key6 = "Elapsed_Time"
         for row in row_list:
             row_dict = dict()
             row_dict[key1] = row[0]
@@ -14,6 +15,7 @@ class RequiredFunctions:
             row_dict[key3] = None
             row_dict[key4] = None
             row_dict[key5] = None
+            row_dict[key6] = None
             row_out_list.append(row_dict)
         return row_out_list
 
@@ -24,6 +26,7 @@ class RequiredFunctions:
         this_row_lst.append(row["Actual_Hindi"])
         this_row_lst.append(row["Start"])
         this_row_lst.append(row["End"])
+        this_row_lst.append(row["Elapsed_Time"])
         return [this_row_lst]
 
     def get_translated_rows(self, rows_lst):

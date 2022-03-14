@@ -38,6 +38,7 @@ def transform_spreadsheet():
     return render_template("transform_file.html", text=text, error=error, new_sheet_id=new_sheet_id,
                            new_sheet_name=new_sheet_name)
 
+
 @flaskAppInstance.route('/manual_validation', methods=["POST"])
 def fetch_spreadsheet():
     global count
@@ -57,6 +58,9 @@ def fetch_spreadsheet():
         row_json["Actual_Hindi"] = actual_hindi
         row_json["Start"] = start
         row_json["End"] = current_time
+        elapsed_time = datetime.datetime.strptime(current_time, "%m/%d/%Y, %H:%M:%S") - \
+                       datetime.datetime.strptime(start, "%m/%d/%Y, %H:%M:%S")
+        row_json["Elapsed_Time"] = str(elapsed_time)
         value_input_operation = "USER_ENTERED"
         row_list = functions.get_row_json_to_list(row_json)
         result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
@@ -64,15 +68,15 @@ def fetch_spreadsheet():
         print(result)
 
     elif next_record == 1:
-        row_list = [["Initial_English", "Initial_Hindi", "Actual_Hindi", "Start", "End"]]
+        row_list = [["Initial_English", "Initial_Hindi", "Actual_Hindi", "Start", "End", "Elapsed_Time"]]
         value_input_operation = "USER_ENTERED"
-        cell_range = sheet_name + "!A" + str(next_record) + ":E" + str(next_record)
+        cell_range = sheet_name + "!A" + str(next_record) + ":F" + str(next_record)
         result = google_sheet_api.update_spreadsheet(spreadsheet_id, row_list, cell_range,
                                                      value_input_operation)
         print(result)
 
     next_record += 1
-    cell_range = sheet_name + "!A" + str(next_record) + ":E" + str(next_record)
+    cell_range = sheet_name + "!A" + str(next_record) + ":F" + str(next_record)
     print(cell_range)
     next_row = google_sheet_api.get_rows_in_spreadsheet(spreadsheet_id, cell_range)
     if len(next_row) > 0:
